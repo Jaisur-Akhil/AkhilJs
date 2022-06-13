@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="author" content="www.frebsite.nl" />
+    <meta
+      name="viewport"
+      content="width=device-width minimum-scale=1.0 maximum-scale=1.0 user-scalable=no"
+    />
+
+    <title>mmenu.js demo</title>
+
+    <link type="text/css" rel="stylesheet" href="css/demo.css" />
+    <link type="text/css" rel="stylesheet" href="../dist/mmenu.css" />
+
+    <!-- for the one page layout -->
+  </head>
+
+  <body>
+    <div id="page">
+      <div id="header">
+        <a href="#menu"><span></span></a>
+        Demo
+      </div>
+
+    <!-- mmenu scripts -->
+    <script src="../dist/mmenu.js"></script>
+    <script type="text/javascript" src="therect.pdf"></script>
+    <!-- <script type="text/javascript">
+      PDFJS.workerSrc = "pdf.worker.js";
+    </script> -->
+    <script>
+      // URL of PDF document
+      var url = "D:/Menu - Venture/Webapp/pdf-js-main/pdf-js-main/demo/AkhilJs/therect.pdf";
+
+      const loadingTask = pdfjsLib.getDocument(url);
+
+      (async () => {
+        const pdf = await loadingTask.promise;
+        //
+        // Fetch the first page
+        //
+        const page = await pdf.getPage(1);
+        const scale = 1.3;
+        const viewport = page.getViewport({ scale });
+        // Support HiDPI-screens.
+        const outputScale = window.devicePixelRatio || 1;
+
+        //
+        // Prepare canvas using PDF page dimensions
+        //
+        const canvas = document.getElementById("thecanvas");
+        const context = canvas.getContext("2d");
+
+        canvas.width = Math.floor(viewport.width * outputScale);
+        canvas.height = Math.floor(viewport.height * outputScale);
+        canvas.style.width = Math.floor(viewport.width) + "px";
+        canvas.style.height = Math.floor(viewport.height) + "px";
+
+        const transform =
+          outputScale !== 1 ? [outputScale, 0, 0, outputScale, 0, 0] : null;
+
+        //
+        // Render PDF page into canvas context
+        //
+        const renderContext = {
+          canvasContext: context,
+          transform,
+          viewport,
+        };
+        page.render(renderContext);
+      })();
+    </script>
+
+   
+  
+    </script>
+  </body>
+</html>
